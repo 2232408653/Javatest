@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class DBUtil {
 	static String rootName="ds";
 	static String rootPwd="root";
-	static String DBName="user";
+	static String DBName="user2";
 	static String DBIP="192.168.66.129";
 	static String DBLink="jdbc:mysql://"+DBIP+":3306/";
 	static {
@@ -31,7 +31,7 @@ public class DBUtil {
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(DBLink + DataBaseName 
-					+ "?characterEncoding=utf-8&useSSL=false",
+					+ "?useUnicode=true&characterEncoding=utf-8&useSSL=false",
 					rootName, rootPwd);
 		} catch (SQLException e) {
 			e.printStackTrace();
