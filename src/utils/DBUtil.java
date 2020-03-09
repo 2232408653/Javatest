@@ -15,6 +15,8 @@ public class DBUtil {
 	static String rootPwd="root";
 	static String DBName="user2";
 	static String DBIP="192.168.66.129";
+	//本地电脑的虚拟服务器,可如若上传至服务器,请使用localhost
+	static String DBIP2="localhost";
 	static String DBLink="jdbc:mysql://"+DBIP+":3306/";
 	static {
 		try {
