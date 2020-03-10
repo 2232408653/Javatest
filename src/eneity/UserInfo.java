@@ -5,6 +5,17 @@ public class UserInfo {
 	String upwd;
 	String upower;
 	String upass;
+	
+	public UserInfo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public UserInfo(String uname,String upwd,String upower,String upass) {
+		this.uname=uname;
+		this.upwd=upwd;
+		this.upower=upower;
+		this.upass=upass;
+	}
 	public String getUname() {
 		return uname;
 	}

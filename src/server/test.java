@@ -32,8 +32,8 @@ public class test extends HttpServlet {
 	res.setCharacterEncoding("utf-8");
 	res.setContentType("application/json;charset:utf-8");
 	PrintWriter pw=res.getWriter();
-	String uname=req.getParameter("firstName");
-	//System.out.println(uname);
+	String uname=req.getParameter("uname");
+	System.out.println(uname);
 	UserDao userdao=new UserDao();
 	UserInfo user=null;
 	user=userdao.selectByuname(uname);
