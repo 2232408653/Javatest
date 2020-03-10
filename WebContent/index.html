@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<title>用户查询</title>
 		<script src="js/vue.min.js"></script>
-		<script src="js/axios.min.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	</head>
 	<body>
 		<div id="app">
@@ -13,16 +13,27 @@
 				{{ site.name }}
 			</div> -->
 			<div v-if="info==='no'">
-				查无此人
+				查无此人,请注册
 			</div>
 			<div v-else-if="info==='yes'">
-				数据库有此人
+				数据库有此人,请登录
 			</div>
 			<div v-else>
-				请输入需要查询的用户名
+				请输入需要查询/登录的用户名
 			</div>
 			<div id="example-1">
-				<input v-model="uname" placeholder="edit me" autofocus="autofocus" @blur="submit">
+				<div>
+					<input v-model="uname" placeholder="edit me" autofocus="autofocus" @blur="submit">
+					<button type="button" @click="submit">查询</button>
+				</div>
+				<div>
+					<input v-model="pwd" placeholder="请输入密码" type="password" required="required" />
+					<label style="color: red;">{{wrong}}</label>
+					<div v-if="info==='yes'">
+						<button type="button" @click="login">登录</button>
+					</div>
+				</div>
+
 				<!-- <p>Message is: {{ message }}</p> -->
 				<!-- <textarea v-model="message2" placeholder="add multiple lines"></textarea>
 				<p style="white-space: pre-line;">{{ message2 }}</p>
@@ -49,10 +60,10 @@
 					<span>Picked: {{ picked }}</span>
 				</div> -->
 
-				<button type="button" @click="submit">登录</button>
+
 				<div v-if="info==='no'">
-					<input v-model="pwd" placeholder="请输入密码" type="password" />
-					<label style="color: red;">{{wrong}}</label>
+					<!-- <input v-model="pwd" placeholder="请输入密码" type="password" />
+					<label style="color: red;">{{wrong}}</label> -->
 					<!-- {{pwd}}
 					查无此人可以注册 -->
 					<div>
@@ -91,6 +102,9 @@
 			</div>
 
 		</div>
+		<div>本项目开源地址:
+			<a href="https://github.com/2232408653/Javatest" target="_blank">https://github.com/2232408653/Javatest</a>
+		</div>
 		<script type="text/javascript">
 			new Vue({
 				el: '#app',
@@ -100,7 +114,7 @@
 					pwd: null,
 					pwd2: null,
 					info: null,
-					pd: true,
+					pd: false,
 					picked: 'user',
 					wrong: "请输入密码",
 				},
@@ -134,7 +148,11 @@
 						params.append('upwd', datas.pwd);
 						params.append('upower', datas.picaked)
 						params.append('upass', 'fales')
-						axios.post('http://localhost:8080/test20200306/register', params);
+						axios.post('http://localhost:8080/test20200306/register', params).then(function(response) {
+							console.log(response); //response.data为返回类型
+						});
+						this.pd = false
+						this.info = "yes"
 						/*
 						无法传递参数
 						axios({
@@ -193,9 +211,34 @@
 						if (this.pwd != this.pwd2) {
 							this.wrong = "两次密码不一致"
 							alert("两次密码不一致")
+						} else
+							this.pd = true
+						this.wrong = '请输入密码';
+						//this.info=null
+					},
+					login: function() {
+						if (this.pwd == null) {
+							alert('请输入密码')
+							return
 						}
-						// else
-						// this.pd=true
+						datas = this.$data
+						const params = new URLSearchParams();
+						params.append('uname', datas.uname);
+						params.append('upwd', datas.pwd);
+						params.append('upower', datas.picaked)
+						params.append('upass', 'fales')
+						axios.post('http://localhost:8080/test20200306/login', params).then(function(response) {
+							console.log(response); //response.data为返回类型
+							if (response.data == 'pwdWrong') {
+								datas.wrong = "密码错误"
+								alert("密码错误")
+							}
+							else if (response.data=="login"){
+								datas.wrong=null
+							}
+							
+						});
+						console.log("登录")
 					}
 
 				}
