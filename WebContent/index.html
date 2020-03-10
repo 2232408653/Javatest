@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<title>用户查询</title>
 		<script src="js/vue.min.js"></script>
-		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script src="js/axios.min.js"></script>
 	</head>
 	<body>
 		<div id="app">
@@ -106,6 +106,13 @@
 			<a href="https://github.com/2232408653/Javatest" target="_blank">https://github.com/2232408653/Javatest</a>
 		</div>
 		<script type="text/javascript">
+			//本地ip地址
+			var ip1='localhost'
+			//远程ip地址
+			var ip2='odoo12.xyz'
+			var duanko=':8080'
+			var ip=ip2+duanko
+			var fulUrl='http://'+ip+'/test20200306'
 			new Vue({
 				el: '#app',
 				el: "#app",
@@ -130,7 +137,7 @@
 					submit: function() {
 						console.log(this.uname);
 						axios
-							.get('http://localhost:8080/test20200306/test?uname=' + this.uname)
+							.get(fulUrl+'/test?uname=' + this.uname)
 							.then(response => (console.log(response.data), this.info = response.data))
 							.catch(function(error) { // 请求失败处理
 								console.log(error);
@@ -148,7 +155,7 @@
 						params.append('upwd', datas.pwd);
 						params.append('upower', datas.picaked)
 						params.append('upass', 'fales')
-						axios.post('http://localhost:8080/test20200306/register', params).then(function(response) {
+						axios.post(fulUrl+'/register', params).then(function(response) {
 							console.log(response); //response.data为返回类型
 						});
 						this.pd = false
@@ -227,18 +234,18 @@
 						params.append('upwd', datas.pwd);
 						params.append('upower', datas.picaked)
 						params.append('upass', 'fales')
-						axios.post('http://localhost:8080/test20200306/login', params).then(function(response) {
+						axios.post(fulUrl+'/login', params).then(function(response) {
 							console.log(response); //response.data为返回类型
 							if (response.data == 'pwdWrong') {
 								datas.wrong = "密码错误"
 								alert("密码错误")
 							}
 							else if (response.data=="login"){
-								datas.wrong=null
+								datas.wrong='登录成功'
 							}
 							
 						});
-						console.log("登录")
+						//console.log("登录")
 					}
 
 				}
